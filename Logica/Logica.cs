@@ -13,13 +13,31 @@ namespace backend.Logica
         }
 
 
-        public List<Producto> ObtenerProductos()
+        public IList<Producto> ObtenerProductos()
         {
             var productosTask = interf.GetAllProducts(); // Obtiene la tarea para obtener todos los productos
             productosTask.Wait(); // Espera a que la tarea se complete
-            return productosTask.Result;
-
+            //return productosTask.Result;
+            List<Producto> productos1 = productosTask.Result;
+            return productos1;
         }
+
+
+        public IList<Producto> GetContentsByParameters2(string keyWords, string creatorNick, string subject, DateTime earliest, DateTime latest)
+        {
+            
+
+            IList<Producto> allContents = ObtenerProductos();
+
+            if (!string.IsNullOrEmpty(keyWords))
+            {
+                allContents = allContents.Where(c => c.Nombre.Contains(keyWords)).ToList();
+            }
+
+            return allContents.ToList();
+        }
+
+        
         /*
         public void AddProduct(Producto producto)
         {
