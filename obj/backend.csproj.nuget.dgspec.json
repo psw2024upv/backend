@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\marius\\Documents\\proyectosPersonales\\psw\\backend\\backend.csproj": {}
+    "C:\\Users\\34640\\source\\repos\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\marius\\Documents\\proyectosPersonales\\psw\\backend\\backend.csproj": {
+    "C:\\Users\\34640\\source\\repos\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\marius\\Documents\\proyectosPersonales\\psw\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\34640\\source\\repos\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\marius\\Documents\\proyectosPersonales\\psw\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\marius\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\marius\\Documents\\proyectosPersonales\\psw\\backend\\obj\\",
+        "projectPath": "C:\\Users\\34640\\source\\repos\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\34640\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\34640\\source\\repos\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\marius\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\34640\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -33,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -46,6 +50,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "supabase-csharp": {
+              "target": "Package",
+              "version": "[0.15.0, )"
             }
           },
           "imports": [
@@ -59,6 +67,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.16, 7.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[7.0.16, 7.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.16, 7.0.16]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.16, 7.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -67,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
