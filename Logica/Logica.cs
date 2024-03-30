@@ -6,7 +6,7 @@ namespace backend.Logica
     public class Logica
     {
         private readonly Interfaz interf;
-
+        private Usuario userlogin;
         public Logica(Interfaz interf)
         {
             this.interf = interf;
@@ -72,6 +72,23 @@ namespace backend.Logica
                     throw new Exception("El member con correo electrónico " + user.Email + " ya existe.");
             }
 
+        }
+
+        public async void Login(String nick, String password)
+        {
+            if(nick == "" || password == "" ) throw new Exception("Existen campos vacíos");
+
+            if ( await interf.UsuarioExistePorApodo(nick)==false) throw new Exception("El usuario no existe");
+            Usuario user =  await interf.UserByNick(nick);
+            
+            if (!user.Contraseña.Equals(password)) throw new Exception("Contraseña incorrecta");
+            userlogin = user;
+        }
+
+        public Usuario UserLogged()
+        {
+            Usuario user = userlogin;
+            return user;
         }
 
         

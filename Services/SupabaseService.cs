@@ -88,13 +88,15 @@ namespace backend.Services
         
         }
 
-        public async Task<List<Usuario>> UsersByNick(string filtro)
+        public async Task<Usuario> UserByNick(string filtro)
         {
             var result = await _supabaseClient
                                 .From<Usuario>()
                                 .Where(x => x.Nick_name == filtro)
                                 .Get();
-            List <Usuario> users = result.Models;
+            
+                                
+            Usuario users = result.Model;
             return users;                    
         }
 
@@ -109,7 +111,17 @@ namespace backend.Services
             Console.WriteLine("User insertado correctamente en Supabase.");
         }
 
+        public async Task<bool> UsuarioExistePorApodo(string apodo)
+        {
+        // Realizar una consulta a la tabla de usuarios para verificar si existe un usuario con el apodo dado
+            var result = await _supabaseClient
+                                .From<Usuario>()
+                                .Where(x => x.Nick_name == apodo)
+                                .Get();
 
+        // Si la consulta devuelve algún resultado, significa que el usuario existe
+        return result.Models != null;
+        }
 
         
     }
