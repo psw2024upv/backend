@@ -22,6 +22,9 @@ namespace backend.Services
         Task<List<Producto>> GetProductsById(int y);
         Task EliminarProducto(Producto producto);
         Task<List<Producto>> GetAllProducts();
+        Task<List<Usuario>> GetAllUsers();
+        Task<List<Usuario>> UsersByNick(string filtro);
+        Task InsertarUser(Usuario nuevouser);
 
     }
 }

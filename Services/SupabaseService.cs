@@ -77,6 +77,38 @@ namespace backend.Services
             return productos1;
         }
 
+        public async Task<List<Usuario>> GetAllUsers()
+        {
+            var users = await _supabaseClient
+                                .From<Usuario>()
+                                .Get();
+
+            List <Usuario> allusers = users.Models;
+            return allusers;
+        
+        }
+
+        public async Task<List<Usuario>> UsersByNick(string filtro)
+        {
+            var result = await _supabaseClient
+                                .From<Usuario>()
+                                .Where(x => x.Nick_name == filtro)
+                                .Get();
+            List <Usuario> users = result.Models;
+            return users;                    
+        }
+
+        public async Task InsertarUser(Usuario nuevouser)
+        {
+            
+
+            // Inserta el nuevo producto en la tabla correspondiente
+            await _supabaseClient
+                    .From<Usuario>()
+                    .Insert(nuevouser);
+            Console.WriteLine("User insertado correctamente en Supabase.");
+        }
+
 
 
         

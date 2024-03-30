@@ -22,6 +22,15 @@ namespace backend.Logica
             return productos1;
         }
 
+        public IList<Usuario> ObtenerUsuarios()
+        {
+            var productosTask = interf.GetAllUsers(); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            List<Usuario> productos1 = productosTask.Result;
+            return productos1;
+        }
+
 
         public IList<Producto> GetContentsByParameters2(string keyWords, string creatorNick, string subject, DateTime earliest, DateTime latest)
         {
@@ -35,6 +44,34 @@ namespace backend.Logica
             }
 
             return allContents.ToList();
+        }
+
+        public void AddMember(Usuario user)
+        {
+
+            
+              IList<Usuario> allUsers = ObtenerUsuarios();
+
+
+            bool nicknamebool = allUsers.Any(u => u.Nick_name == user.Nick_name);
+
+            // Verificar si ya existe un miembro con el mismo correo electrónico
+            bool emailbool = allUsers.Any(u => u.Email == user.Email);
+
+
+            if (!nicknamebool && !emailbool)
+            {
+                interf.InsertarUser(user);
+            }
+            else
+            {
+                if (nicknamebool)
+                    throw new Exception("El member con nick " + user.Nick_name + " ya existe.");
+
+                if (emailbool)
+                    throw new Exception("El member con correo electrónico " + user.Email + " ya existe.");
+            }
+
         }
 
         
