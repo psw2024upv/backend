@@ -120,7 +120,7 @@ namespace backend.Services
                                 .Get();
 
         // Si la consulta devuelve algún resultado, significa que el usuario existe
-        return result.Models != null;
+        return result.Models.Any();
         }
 
         
