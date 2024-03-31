@@ -91,27 +91,17 @@ namespace backend.Logica
             return user;
         }
 
-        
-        /*
-        public void AddProduct(Producto producto)
+        public  Usuario ObtenerUsuarioPorNick(string nick)
         {
-            
-            // Restricción: No puede haber dos asignaturas con el mismo code
-            if (interf.GetProductsById(producto.Id) == null)
-            {
-                // Restricción: No puede haber dos asignaturas con el mismo name
-                if (interf.GetAllProducts(x => x.Name == producto.Nombre).Any())
-                {
-                    // Sólo se salva si no hay Code ni email duplicado
-                    interf.InsertarProducto(producto);
-                }
-                else
-                    throw new ServiceException("Subject with name " + producto.Nombre + " already exists.");
-            }
-            else
-                throw new ServiceException("Subject with code " + producto.Precio + " already exists.");
+
+            var productosTask = interf.UserByNick(nick); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            Usuario user1 = productosTask.Result;
+            return user1;
+
+
         }
-*/
 
     }
 
