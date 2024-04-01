@@ -31,6 +31,24 @@ namespace backend.Logica
             return productos1;
         }
 
+        public List<Usuario> ObtenerUsuarios2()
+        {
+            var productosTask = interf.GetAllUsers(); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            List<Usuario> productos1 = productosTask.Result;
+            return productos1;
+        }
+
+        public Boolean Bool1(string nick)
+        {
+            var bool2 = interf.UsuarioExistePorApodo(nick);
+            bool2.Wait();
+            Boolean bool3 = bool2.Result;
+            return bool3;
+
+        }
+
 
         public IList<Producto> GetContentsByParameters2(int keyWords)
         {
