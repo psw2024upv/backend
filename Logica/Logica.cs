@@ -32,16 +32,15 @@ namespace backend.Logica
         }
 
 
-        public IList<Producto> GetContentsByParameters2(string keyWords, string creatorNick, string subject, DateTime earliest, DateTime latest)
+        public IList<Producto> GetContentsByParameters2(int keyWords)
         {
             
 
             IList<Producto> allContents = ObtenerProductos();
 
-            if (!string.IsNullOrEmpty(keyWords))
-            {
-                allContents = allContents.Where(c => c.Nombre.Contains(keyWords)).ToList();
-            }
+            
+            allContents = allContents.Where(c => c.Precio_cents==keyWords).ToList();
+            
 
             return allContents.ToList();
         }
@@ -91,6 +90,7 @@ namespace backend.Logica
             return user;
         }
 
+
         public  Usuario ObtenerUsuarioPorNick(string nick)
         {
 
@@ -99,8 +99,66 @@ namespace backend.Logica
             //return productosTask.Result;
             Usuario user1 = productosTask.Result;
             return user1;
+        }
 
+        public  Producto ObtenerProductoPorPrecio(int nick)
+        {
 
+            var productosTask = interf.ProductByPrice(nick); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            Producto user1 = productosTask.Result;
+            return user1;
+        }
+        public  Comprador ObtenerCompradorPorNick(string nick)
+        {
+
+            var productosTask = interf.BuyerByNick(nick); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            Comprador user1 = productosTask.Result;
+            return user1;
+        }
+
+        public  Usuario ObtenerUsuarioPorEdad(int edad)
+        {
+
+            var productosTask = interf.UserByAge(edad); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            Usuario user1 = productosTask.Result;
+            return user1;
+        }
+
+        public Usuario UpdateEdadUsuario(Usuario usuario,int edad)
+        {
+            var usuario1 = interf.UpdateAgeUser(usuario,usuario.Edad,edad);
+            usuario1.Wait();
+            Usuario user1 = usuario1.Result;
+            
+            return user1;
+
+        }
+
+        public void AddUsuario(Usuario usuario)
+        {
+            interf.InsertarUser(usuario);
+
+        }
+
+        public void AgregarAlCarrito(int usuarioId, int productoId)
+        {
+            // Aquí iría la lógica para insertar el nuevo elemento en la tabla CarritoCompra
+            // Por ejemplo:
+            CarritoCompra nuevoElemento = new CarritoCompra
+            {
+                Id_usuario = usuarioId,
+                Id_producto = productoId
+                // Puedes añadir otros campos si los necesitas, como cantidad, fecha, etc.
+            };
+
+            interf.InsertarCarrito(nuevoElemento);
+            
         }
 
     }

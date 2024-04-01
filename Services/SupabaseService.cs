@@ -53,7 +53,6 @@ namespace backend.Services
         {
             var result = await _supabaseClient
                 .From<Producto>()
-                .Select(x => new object[] { x.Id, x.Nombre, x.Precio })
                 .Where(x => x.Id == y)
                 .Get();
             List <Producto> productos = result.Models;
@@ -65,6 +64,18 @@ namespace backend.Services
             await _supabaseClient
                 .From<Producto>()
                 .Delete(producto);
+        }
+
+        public async Task<Producto> ProductByPrice(int filtro)
+        {
+            var result = await _supabaseClient
+                                .From<Producto>()
+                                .Where(x => x.Precio_cents == filtro)
+                                .Get();
+            
+                                
+            Producto users = result.Model;
+            return users;                    
         }
 
         public async Task<List<Producto>> GetAllProducts()
@@ -100,6 +111,44 @@ namespace backend.Services
             return users;                    
         }
 
+        public async Task<List<Comprador>> GetAllBuyers()
+        {
+            var users = await _supabaseClient
+                                .From<Comprador>()
+                                .Get();
+
+            List <Comprador> allusers = users.Models;
+            return allusers;
+        
+        }
+
+        
+
+        public async Task<Comprador> BuyerByNick(string filtro)
+        {
+            var result = await _supabaseClient
+                                .From<Comprador>()
+                                .Select("*,usuario:nick_name")
+                                .Where(x => x.Nick_name == filtro)
+                                .Get();
+            
+                                
+            Comprador users = result.Model;
+            return users;                    
+        }
+
+        public async Task<Usuario> UserByAge(int filtro)
+        {
+            var result = await _supabaseClient
+                                .From<Usuario>()
+                                .Where(x => x.Edad == filtro)
+                                .Get();
+            
+                                
+            Usuario users = result.Model;
+            return users;                    
+        }
+
         public async Task InsertarUser(Usuario nuevouser)
         {
             
@@ -119,10 +168,31 @@ namespace backend.Services
                                 .Where(x => x.Nick_name == apodo)
                                 .Get();
 
-        // Si la consulta devuelve algún resultado, significa que el usuario existe
-        return result.Models.Any();
+            // Si la consulta devuelve algún resultado, significa que el usuario existe
+            return result.Models.Any();
         }
 
+        public async Task<Usuario> UpdateAgeUser(Usuario usuario,int edad1 ,int edad)
+        {
+            await _supabaseClient
+                    .From<Usuario>()
+                    .Where(x => x.Edad == edad1)
+                    .Set(x => x.Edad, edad)
+                    .Update();
+
+            return usuario;
+        }
+
+        public async Task InsertarCarrito(CarritoCompra nuevocarrito)
+        {
+            
+
+            // Inserta el nuevo producto en la tabla correspondiente
+            await _supabaseClient
+                    .From<CarritoCompra>()
+                    .Insert(nuevocarrito);
+            Console.WriteLine("Carrito insertado correctamente en Supabase.");
+        }
         
     }
 }

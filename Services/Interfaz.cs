@@ -26,6 +26,11 @@ namespace backend.Services
         Task<Usuario> UserByNick(string filtro);
         Task InsertarUser(Usuario nuevouser);
         Task<bool> UsuarioExistePorApodo(string apodo);
+        Task<Usuario> UpdateAgeUser(Usuario usuario,int edad1 ,int edad);
+        Task<Usuario> UserByAge(int filtro);
+        Task InsertarCarrito(CarritoCompra nuevocarrito);
+        Task<Comprador> BuyerByNick(string filtro);
+        Task<Producto> ProductByPrice(int filtro);
 
     }
 }
