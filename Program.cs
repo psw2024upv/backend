@@ -1,3 +1,76 @@
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using backend.Logica;
+using backend.Models;
+using backend.Services;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        ConfigureServices(builder.Services);
+        var app = builder.Build();
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var supabaseService = services.GetRequiredService<SupabaseService>();
+            var logica = services.GetRequiredService<Logica>();
+
+            // Aquí puedes llamar a métodos de SupabaseService y Logica para comprobar su funcionalidad
+            // Por ejemplo:
+            supabaseService.InitializeSupabaseAsync().Wait();
+            Console.WriteLine("Supabase inicializado correctamente.");
+            /*
+            Usuario user = new Usuario("javi","pedro99","contra1","javi@ejemplo.com",45);
+            logica.AddMember(user);
+            user.Edad = 45;
+            logica.
+            /*
+            Usuario buyer1 = logica.ObtenerUsuarioPorNick("pedro99");
+            Producto prod1 = logica.ObtenerProductoPorPrecio(5000);
+            logica.AgregarAlCarrito(buyer1.Id,prod1.Id);
+            */
+
+
+            
+            Usuario user1 = logica.ObtenerUsuarioPorNick("maria87");
+
+            Console.WriteLine("Id de maria : " + user1.Id);
+            Console.WriteLine("Edad de maria : " + user1.Edad);
+            user1 = logica.UpdateEdadUsuario(user1,85);
+            Console.WriteLine("Edad de maria : " + user1.Edad);
+            Usuario user2 = logica.ObtenerUsuarioPorEdad(85);
+            Console.WriteLine("user2 : " + user2.Nombre);
+            Console.WriteLine("user2 : " + user2.Edad);
+            Console.WriteLine("user1 : " + user1.Edad);
+            
+
+
+            //logica.UpdateUsuario(user1);
+            //Console.WriteLine(user1.Nombre);
+            // Realiza otras operaciones como insertar productos, obtener usuarios, etc.
+        }
+
+        app.Run();
+    }
+
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+        services.AddScoped<SupabaseService>();
+        services.AddScoped<Logica>();
+        services.AddScoped<Interfaz, SupabaseService>();
+    }
+
+
+}
+
+
+/*
+
 using backend.Services;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,3 +97,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+*/
