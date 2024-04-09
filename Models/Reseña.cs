@@ -3,9 +3,18 @@ using Postgrest.Models;
 
 namespace backend.Models
 {
-    [Table("carritocompra")]
-    public class CarritoCompra : BaseModel
+    [Table("resena")]
+    public class Resena : BaseModel
     {
+        [Column("titulo")]
+        public string Titulo { get; set; }
+
+        [Column("puntuacion")]
+        public string Puntuacion { get; set; }
+
+        [Column("texto")]
+        public string Texto { get; set; }
+
         [Column("id_usuario")]
         public int Id_usuario { get; set; }
 

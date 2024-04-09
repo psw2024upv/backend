@@ -3,17 +3,17 @@ using Postgrest.Models;
 
 namespace backend.Models
 {
-    [Table("carritocompra")]
-    public class CarritoCompra : BaseModel
+    [Table("productopedido")]
+    public class ProductoPedido : BaseModel
     {
-        [Column("id_usuario")]
-        public int Id_usuario { get; set; }
+        [Column("id_pedido")]
+        public int Id_pedido { get; set; }
 
         [Column("id_producto")]
         public int Id_producto { get; set; }
 
-        // Propiedad de navegación hacia el Comprador
-        public Comprador Comprador { get; set; }
+        // Propiedad de navegación hacia el Pedido
+        public Pedido Pedido { get; set; }
 
         // Propiedad de navegación hacia el Producto
         public Producto Producto { get; set; }

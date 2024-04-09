@@ -3,8 +3,8 @@ using Postgrest.Models;
 
 namespace backend.Models
 {
-    [Table("carritocompra")]
-    public class CarritoCompra : BaseModel
+    [Table("listadeseos")]
+    public class ListaDeseos : BaseModel
     {
         [Column("id_usuario")]
         public int Id_usuario { get; set; }

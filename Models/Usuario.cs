@@ -1,20 +1,20 @@
 using Postgrest.Attributes;
 using Postgrest.Models;
+using System.Collections.Generic;
 
 namespace backend.Models
 {
     [Table("usuario")]
     public class Usuario : BaseModel
     {
-        [PrimaryKey("Id", false)]
+        [Column("id")]
         public int Id { get; set; }
-
 
         [Column("nombre")]
         public string Nombre { get; set; }
 
         [Column("nick_name")]
-        public string Nick_name { get; set; }
+        public string NickName { get; set; }
 
         [Column("contraseña")]
         public string Contraseña { get; set; }
@@ -24,10 +24,16 @@ namespace backend.Models
 
         [Column("edad")]
         public int Edad { get; set; }
-        // Otros campos que puedas necesitar
 
+        // // Relación con FotoPerfil
+        // public List<FotoPerfil> FotoPerfiles { get; set; }
 
-        // Relación con Cliente si es necesario
+        // // Relación con Alertas
+        // public List<Alerta> Alertas { get; set; }
 
+        // // Relación con Notificaciones
+        // public List<Notificacion> Notificaciones { get; set; }
+
+        // // Otras relaciones que puedas necesitar
     }
 }

@@ -3,8 +3,8 @@ using Postgrest.Models;
 
 namespace backend.Models
 {
-    [Table("carritocompra")]
-    public class CarritoCompra : BaseModel
+    [Table("guardadoparamastarde")]
+    public class GuardadoParaMasTarde : BaseModel
     {
         [Column("id_usuario")]
         public int Id_usuario { get; set; }
@@ -16,8 +16,8 @@ namespace backend.Models
         public Comprador Comprador { get; set; }
 
         // Propiedad de navegación hacia el Producto
-        public Producto Producto { get; set; }
 
+        public Producto Producto { get; set; }
         // Clave primaria compuesta
         [PrimaryKey]
         public (int, int) CompositeKey { get; set; }

@@ -1,4 +1,4 @@
-﻿using Postgrest.Attributes;
+using Postgrest.Attributes;
 using Postgrest.Models;
 
 namespace backend.Models
@@ -6,9 +6,8 @@ namespace backend.Models
     [Table("producto")]
     public class Producto : BaseModel
     {
-        [PrimaryKey("id", false)]
+        [Column("id")]
         public int Id { get; set; }
-
 
         [Column("precio_cents")]
         public int Precio_cents { get; set; }
@@ -21,10 +20,11 @@ namespace backend.Models
 
         [Column("id_articulo")]
         public int Id_articulo { get; set; }
-        // Otros campos que puedas necesitar
 
+        // Propiedad de navegación hacia el Vendedor
+        public Vendedor Vendedor { get; set; }
 
-        // Relación con Cliente si es necesario
-
+        // Propiedad de navegación hacia el Articulo
+        public Articulo Articulo { get; set; }
     }
 }

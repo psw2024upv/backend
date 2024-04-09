@@ -3,14 +3,17 @@ using Postgrest.Models;
 
 namespace backend.Models
 {
-    [Table("comprador")]
-    public class Comprador : BaseModel
+    [Table("fotoperfil")]
+    public class FotoPerfil : BaseModel
     {
+        [Column("hash")]
+        public string Hash { get; set; }
+
+        [Column("url")]
+        public string Url { get; set; }
+
         [Column("id_usuario")]
         public int Id_usuario { get; set; }
-
-        [Column("limite_gasto_cents_mes")]
-        public int Limite_gasto_cents_mes { get; set; }
 
         // Propiedad de navegación hacia el Usuario
         public Usuario Usuario { get; set; }
