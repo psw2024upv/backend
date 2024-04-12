@@ -54,8 +54,14 @@ namespace backend.Controllers
         [HttpPost("registro")]
         public IActionResult RegistrarComprador([FromBody] RegistroRequest request)
         {
-            _logica.CrearUsuario(request.Nombre, request.Nick, request.Password, request.Email, request.Edad);
-            return Ok();
+            try{
+                _logica.CrearUsuario(request.Nombre, request.Nick, request.Password, request.Email, request.Edad);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error : " + ex.Message);
+            }
         }
 
         [HttpGet("perfil/{nick}")]
