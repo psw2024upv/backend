@@ -1,24 +1,15 @@
-using Postgrest.Attributes;
-using Postgrest.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    [Table("imagenproducto")]
-    public class ImagenProducto : BaseModel
+    public class ImagenProducto
     {
-        [Column("id")]
         public int Id { get; set; }
-
-        [Column("hash")]
         public string Hash { get; set; }
-
-        [Column("url")]
         public string Url { get; set; }
+        public int IdArticulo { get; set; }
 
-        [Column("id_articulo")]
-        public int Id_articulo { get; set; }
-
-        // Propiedad de navegación hacia el Articulo
+        [ForeignKey("IdArticulo")]
         public Articulo Articulo { get; set; }
     }
 }

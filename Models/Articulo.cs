@@ -1,45 +1,22 @@
-using Postgrest.Attributes;
-using Postgrest.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    [Table("articulo")]
-    public class Articulo : BaseModel
+    public class Articulo
     {
-        [Column("id")]
         public int Id { get; set; }
-
-        [Column("nombre")]
         public string Nombre { get; set; }
-
-        [Column("categoria")]
         public string Categoria { get; set; }
-
-        [Column("edad_min")]
-        public int Edad_min { get; set; }
-
-        [Column("consejos_utilizacion")]
-        public string Consejos_utilizacion { get; set; }
-
-        [Column("consejos_retirada")]
-        public string Consejos_retirada { get; set; }
-
-        [Column("origen")]
+        public int EdadMin { get; set; }
+        public string ConsejosUtilizacion { get; set; }
+        public string ConsejosRetirada { get; set; }
         public string Origen { get; set; }
+        public string ProcesoProduccion { get; set; }
+        public string ImpactoAmbientalSocial { get; set; }
+        public string ContribucionOds { get; set; }
+        public int IdUsuario { get; set; }
 
-        [Column("proceso_produccion")]
-        public string Proceso_produccion { get; set; }
-
-        [Column("impacto_ambiental_social")]
-        public string Impacto_ambiental_social { get; set; }
-
-        [Column("contribucion_ods")]
-        public string Contribucion_ods { get; set; }
-
-        [Column("id_usuario")]
-        public int Id_usuario { get; set; }
-
-        // Propiedad de navegación hacia el Productor
+        [ForeignKey("IdUsuario")]
         public Productor Productor { get; set; }
     }
 }

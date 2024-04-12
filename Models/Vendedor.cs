@@ -1,15 +1,9 @@
-using Postgrest.Attributes;
-using Postgrest.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    [Table("vendedor")]
-    public class Vendedor : BaseModel
+    public class Vendedor : Usuario
     {
-        [Column("id_usuario")]
-        public int Id_usuario { get; set; }
 
-        // Propiedad de navegación hacia el Usuario
-        public Usuario Usuario { get; set; }
     }
 }

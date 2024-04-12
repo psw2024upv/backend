@@ -1,25 +1,16 @@
-using Postgrest.Attributes;
-using Postgrest.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    [Table("productopedido")]
-    public class ProductoPedido : BaseModel
+    public class ProductoPedido
     {
-        [Column("id_pedido")]
-        public int Id_pedido { get; set; }
+        public int IdPedido { get; set; }
+        public int IdProducto { get; set; }
 
-        [Column("id_producto")]
-        public int Id_producto { get; set; }
-
-        // Propiedad de navegación hacia el Pedido
+        [ForeignKey("IdPedido")]
         public Pedido Pedido { get; set; }
 
-        // Propiedad de navegación hacia el Producto
+        [ForeignKey("IdProducto")]
         public Producto Producto { get; set; }
-
-        // Clave primaria compuesta
-        [PrimaryKey]
-        public (int, int) CompositeKey { get; set; }
     }
 }
