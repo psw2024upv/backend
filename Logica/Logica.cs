@@ -179,6 +179,71 @@ namespace backend.Logica
             
         }
 
+
+        // Método fábrica para crear usuarios
+        public Usuario CrearUsuario(string nombre, string nick_name, string contraseña, string email, int edad, string limiteGasto = null)
+        {
+            if (limiteGasto != null)
+            {
+                // Crear un nuevo Comprador
+                return new Comprador
+                {
+                    Nombre = nombre,
+                    Nick_name = nick_name,
+                    Contraseña = contraseña,
+                    Email = email,
+                    Edad = edad,
+                    Limite_gasto_cents_mes = limiteGasto
+                };
+            }
+            else
+            {
+                // Crear un nuevo Usuario
+                return new Usuario
+                {
+                    Nombre = nombre,
+                    Nick_name = nick_name,
+                    Contraseña = contraseña,
+                    Email = email,
+                    Edad = edad
+                };
+            }
+        }
+
+        // Método para agregar usuario a la base de datos
+        public void AgregarUsuarioABaseDeDatos(Usuario usuario)
+        {
+            // Aquí debes llamar a los métodos de tu capa de persistencia para insertar el usuario en la base de datos
+
+            if (usuario is Comprador)
+            {
+                // Si el usuario es un Comprador, insertamos primero el Usuario y luego el Comprador
+
+                // Insertar el Usuario en la tabla de Usuarios
+                interf.InsertarUser(usuario);
+
+                // Obtener el ID del Usuario recién insertado
+                int usuarioId = usuario.Id;
+
+                // Insertar el Comprador en la tabla de Compradores
+                interf.InsertarBuyer(new Comprador
+                {
+                    Id = usuarioId, // Utilizar el mismo ID del Usuario
+                    Limite_gasto_cents_mes = ((Comprador)usuario).Limite_gasto_cents_mes
+                    // Otros atributos específicos de Comprador
+                });
+
+            }
+            else
+            {
+                // Si es un usuario normal, lo insertamos directamente en la tabla de Usuarios
+                interf.InsertarUser(usuario);
+
+            }
+        }
+
+
+
     }
 
 }
