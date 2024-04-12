@@ -1,13 +1,14 @@
 using backend.Services;
 using backend.Models;
+using System.Collections.Generic;
 
 namespace backend.Logica
 {
-    public class Logica
+    public class LogicaClase : InterfazLogica
     {
         private readonly Interfaz interf;
         private Usuario userlogin;
-        public Logica(Interfaz interf)
+        public LogicaClase(Interfaz interf)
         {
             this.interf = interf;
         }
@@ -67,7 +68,7 @@ namespace backend.Logica
         {
 
             
-              IList<Usuario> allUsers = ObtenerUsuarios();
+            IList<Usuario> allUsers = ObtenerUsuarios();
 
 
             bool nicknamebool = allUsers.Any(u => u.Nick_name == user.Nick_name);
@@ -100,6 +101,7 @@ namespace backend.Logica
             
             if (!user.Contraseña.Equals(password)) throw new Exception("Contraseña incorrecta");
             userlogin = user;
+            Console.WriteLine("Usuario con nick :" + user.Nick_name + "y contraseña :" + user.Contraseña + "logueado");
         }
 
         public Usuario UserLogged()
@@ -183,10 +185,12 @@ namespace backend.Logica
         // Método fábrica para crear usuarios
         public Usuario CrearUsuario(string nombre, string nick_name, string contraseña, string email, int edad, string limiteGasto = null)
         {
+            Usuario nuevoUsuario;
+
             if (limiteGasto != null)
             {
                 // Crear un nuevo Comprador
-                return new Comprador
+                nuevoUsuario = new Comprador
                 {
                     Nombre = nombre,
                     Nick_name = nick_name,
@@ -199,7 +203,7 @@ namespace backend.Logica
             else
             {
                 // Crear un nuevo Usuario
-                return new Usuario
+                nuevoUsuario = new Usuario
                 {
                     Nombre = nombre,
                     Nick_name = nick_name,
@@ -208,6 +212,10 @@ namespace backend.Logica
                     Edad = edad
                 };
             }
+            AgregarUsuarioABaseDeDatos(nuevoUsuario);
+
+            // Retornar el nuevo usuario creado
+            return nuevoUsuario;
         }
 
         // Método para agregar usuario a la base de datos
@@ -220,7 +228,7 @@ namespace backend.Logica
                 // Si el usuario es un Comprador, insertamos primero el Usuario y luego el Comprador
 
                 // Insertar el Usuario en la tabla de Usuarios
-                interf.InsertarUser(usuario);
+                AddMember(usuario);
 
                 // Obtener el ID del Usuario recién insertado
                 int usuarioId = usuario.Id;
@@ -237,7 +245,7 @@ namespace backend.Logica
             else
             {
                 // Si es un usuario normal, lo insertamos directamente en la tabla de Usuarios
-                interf.InsertarUser(usuario);
+                AddMember(usuario);
 
             }
         }

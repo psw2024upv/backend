@@ -6,7 +6,8 @@ namespace backend.Models
     [Table("comprador")]
     public class Comprador : Usuario
     {
-        [PrimaryKey("Id", false)]
+        [PrimaryKey]
+        [Column("id_usuario")]
         public int Id { get; set; }
 
 

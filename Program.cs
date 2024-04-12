@@ -1,9 +1,14 @@
+/*
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using backend.Logica;
 using backend.Models;
 using backend.Services;
-
+using backend.Controllers;
 public class Program
 {
     public static void Main(string[] args)
@@ -30,9 +35,9 @@ public class Program
             Usuario buyer1 = logica.ObtenerUsuarioPorNick("pedro99");
             Producto prod1 = logica.ObtenerProductoPorPrecio(5000);
             logica.AgregarAlCarrito(buyer1.Id,prod1.Id);
-            */
+            
 
-
+            
             
             Usuario user1 = logica.ObtenerUsuarioPorNick("maria87");
 
@@ -48,10 +53,11 @@ public class Program
 
 
             //logica.UpdateUsuario(user1);
-            //Console.WriteLine(user1.Nombre);
+            Console.WriteLine(user1.Nombre);
             // Realiza otras operaciones como insertar productos, obtener usuarios, etc.
         }
 
+        Configure(app);
         app.Run();
     }
 
@@ -65,7 +71,19 @@ public class Program
         services.AddScoped<Interfaz, SupabaseService>();
     }
 
+    private static void Configure(WebApplication app)
+    {
+        app.UseRouting();
 
+        app.MapControllers();
+
+
+        app.MapGet("/", async context =>
+        {
+            await context.Response.WriteAsync("¡La API está en funcionamiento!");
+        });
+    }
+    
 }
 
 

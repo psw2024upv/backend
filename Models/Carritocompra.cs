@@ -7,10 +7,11 @@ namespace backend.Models
     public class CarritoCompra : BaseModel
     {
 
-
+        [PrimaryKey]
         [Column("id_usuario")]
         public int Id_usuario { get; set; }
-
+        
+        [PrimaryKey]
         [Column("id_producto")]
         public int Id_producto { get; set; }
 
