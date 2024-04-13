@@ -31,6 +31,7 @@ namespace backend.Services
         Task InsertarCarrito(CarritoCompra nuevocarrito);
         Task<Comprador> BuyerByNick(string filtro);
         Task<Producto> ProductByPrice(int filtro);
+        Task InsertarBuyer(Comprador nuevobuyer);
 
     }
 }

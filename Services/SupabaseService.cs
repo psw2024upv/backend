@@ -160,6 +160,17 @@ namespace backend.Services
             Console.WriteLine("User insertado correctamente en Supabase.");
         }
 
+        public async Task InsertarBuyer(Comprador nuevobuyer)
+        {
+            
+
+            // Inserta el nuevo producto en la tabla correspondiente
+            await _supabaseClient
+                    .From<Comprador>()
+                    .Insert(nuevobuyer);
+            Console.WriteLine("Comprador insertado correctamente en Supabase.");
+        }
+
         public async Task<bool> UsuarioExistePorApodo(string apodo)
         {
         // Realizar una consulta a la tabla de usuarios para verificar si existe un usuario con el apodo dado
