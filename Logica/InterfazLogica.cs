@@ -32,8 +32,10 @@ namespace backend.Logica
         Usuario UpdateEdadUsuario(Usuario usuario,int edad);
         void AddUsuario(Usuario usuario);
         void AgregarAlCarrito(int usuarioId, int productoId);
-        Usuario CrearUsuario(string nombre, string nick_name, string contraseña, string email, int edad, string limiteGasto = null);
-        void AgregarUsuarioABaseDeDatos(Usuario usuario);
+        void CrearUsuario(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null);
+        void AgregarUsuarioABaseDeDatos(Usuario usuario,int? limiteGasto);
+        //void AgregarUsuarioABaseDeDatos2(Usuario usuario, int? limiteGasto);
+        //void CrearUsuario2(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null);
 
     }
 }

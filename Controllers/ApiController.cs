@@ -54,8 +54,19 @@ namespace backend.Controllers
         [HttpPost("registro")]
         public IActionResult RegistrarComprador([FromBody] RegistroRequest request)
         {
-            try{
-                _logica.CrearUsuario(request.Nombre, request.Nick, request.Password, request.Email, request.Edad);
+            try
+            {
+                
+                if (request.LimiteGasto != null)
+                {
+                    // El usuario es un comprador
+                    _logica.CrearUsuario(request.Nombre, request.Nick, request.Password, request.Email, request.Edad, request.LimiteGasto.Value);
+                }
+                else
+                {
+                    // El usuario es un usuario regular
+                    _logica.CrearUsuario(request.Nombre, request.Nick, request.Password, request.Email, request.Edad);
+                }
                 return Ok();
             }
             catch (Exception ex)
@@ -95,6 +106,7 @@ namespace backend.Controllers
             public string Password { get; set; }
             public string Email { get; set; }
             public int Edad { get; set; }
+            public int? LimiteGasto {get; set; }
         }
 
     }

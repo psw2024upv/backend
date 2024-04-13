@@ -183,7 +183,7 @@ namespace backend.Logica
 
 
         // Método fábrica para crear usuarios
-        public Usuario CrearUsuario(string nombre, string nick_name, string contraseña, string email, int edad, string limiteGasto = null)
+        public void CrearUsuario(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null)
         {
             Usuario nuevoUsuario;
 
@@ -197,7 +197,7 @@ namespace backend.Logica
                     Contraseña = contraseña,
                     Email = email,
                     Edad = edad,
-                    Limite_gasto_cents_mes = limiteGasto
+                    Limite_gasto_cents_mes = limiteGasto.Value
                 };
             }
             else
@@ -212,26 +212,42 @@ namespace backend.Logica
                     Edad = edad
                 };
             }
-            AgregarUsuarioABaseDeDatos(nuevoUsuario);
+            AgregarUsuarioABaseDeDatos(nuevoUsuario,limiteGasto);
 
             // Retornar el nuevo usuario creado
-            return nuevoUsuario;
         }
 
         // Método para agregar usuario a la base de datos
-        public void AgregarUsuarioABaseDeDatos(Usuario usuario)
+        public void AgregarUsuarioABaseDeDatos(Usuario usuario,int? limiteGasto)
         {
-            // Aquí debes llamar a los métodos de tu capa de persistencia para insertar el usuario en la base de datos
 
+
+            // Aquí debes llamar a los métodos de tu capa de persistencia para insertar el usuario en la base de datos
+            Usuario usuario2;
             if (usuario is Comprador)
             {
                 // Si el usuario es un Comprador, insertamos primero el Usuario y luego el Comprador
 
                 // Insertar el Usuario en la tabla de Usuarios
-                AddMember(usuario);
+                usuario2 = new Usuario{
+                    Nombre = usuario.Nombre,
+                    Nick_name = usuario.Nick_name,
+                    Contraseña = usuario.Contraseña,
+                    Email = usuario.Email,
+                    Edad = usuario.Edad
+                };
+                try
+                {
+                    AddMember(usuario2);
+                }
+                catch (Exception ex)
+                {
+                    // Manejar la excepción, registrarla, imprimir información de depuración, etc.
+                    Console.WriteLine("Error al insertar usuario en la base de datos: " + ex.Message);
+                }
 
                 // Obtener el ID del Usuario recién insertado
-                int usuarioId = usuario.Id;
+                int usuarioId = usuario2.Id;
 
                 // Insertar el Comprador en la tabla de Compradores
                 interf.InsertarBuyer(new Comprador
@@ -249,8 +265,62 @@ namespace backend.Logica
 
             }
         }
+/*
+        // Método fábrica para crear usuarios
+        public void CrearUsuario2(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null)
+        {
+            Usuario nuevoUsuario;
+            Comprador nuevousuario2;
 
+            // Crear un nuevo Usuario
+                nuevoUsuario = new Usuario
+                {
+                    Nombre = nombre,
+                    Nick_name = nick_name,
+                    Contraseña = contraseña,
+                    Email = email,
+                    Edad = edad
+                };
 
+            if (limiteGasto == null)
+            {
+
+                
+                AgregarUsuarioABaseDeDatos(nuevoUsuario);
+                
+            }
+            else
+            {
+                
+                AgregarUsuarioABaseDeDatos(nuevoUsuario);
+
+                
+                AgregarUsuarioABaseDeDatos2(nuevoUsuario,limiteGasto);
+
+            }
+        }
+
+        // Método para agregar usuario a la base de datos
+        public void AgregarUsuarioABaseDeDatos2(Usuario usuario, int? limiteGasto)
+        {
+
+            
+            // Obtener el ID del Usuario recién insertado
+            int usuarioId = usuario.Id;
+
+            // Insertar el Comprador en la tabla de Compradores
+            interf.InsertarBuyer(new Comprador
+            {
+                Id = usuarioId, // Utilizar el mismo ID del Usuario
+                Limite_gasto_cents_mes = ((Comprador)usuario).Limite_gasto_cents_mes
+                // Otros atributos específicos de Comprador
+            });
+
+            }
+
+        
+
+*/
 
     }
 
