@@ -58,7 +58,7 @@ namespace backend.Logica
             IList<Producto> allContents = ObtenerProductos();
 
             
-            allContents = allContents.Where(c => c.Precio_cents==keyWords).ToList();
+            allContents = allContents.Where(c => c.PrecioCents==keyWords).ToList();
             
 
             return allContents.ToList();
@@ -71,7 +71,7 @@ namespace backend.Logica
             IList<Usuario> allUsers = ObtenerUsuarios();
 
 
-            bool nicknamebool = allUsers.Any(u => u.Nick_name == user.Nick_name);
+            bool nicknamebool = allUsers.Any(u => u.NickName == user.NickName);
 
             // Verificar si ya existe un miembro con el mismo correo electrónico
             bool emailbool = allUsers.Any(u => u.Email == user.Email);
@@ -84,7 +84,7 @@ namespace backend.Logica
             else
             {
                 if (nicknamebool)
-                    throw new Exception("El member con nick " + user.Nick_name + " ya existe.");
+                    throw new Exception("El member con nick " + user.NickName + " ya existe.");
 
                 if (emailbool)
                     throw new Exception("El member con correo electrónico " + user.Email + " ya existe.");
@@ -101,7 +101,7 @@ namespace backend.Logica
             
             if (!user.Contraseña.Equals(password)) throw new Exception("Contraseña incorrecta");
             userlogin = user;
-            Console.WriteLine("Usuario con nick :" + user.Nick_name + "y contraseña :" + user.Contraseña + "logueado");
+            Console.WriteLine("Usuario con nick :" + user.NickName + "y contraseña :" + user.Contraseña + "logueado");
         }
 
         public Usuario UserLogged()
@@ -172,8 +172,8 @@ namespace backend.Logica
             // Por ejemplo:
             CarritoCompra nuevoElemento = new CarritoCompra
             {
-                Id_usuario = usuarioId,
-                Id_producto = productoId
+                IdUsuario = usuarioId,
+                IdProducto = productoId
                 // Puedes añadir otros campos si los necesitas, como cantidad, fecha, etc.
             };
 
@@ -183,7 +183,7 @@ namespace backend.Logica
 
 
         // Método fábrica para crear usuarios
-        public void CrearUsuario(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null)
+        public void CrearUsuario(string nombre, string NickName, string contraseña, string email, int edad, int? limiteGasto = null)
         {
             Usuario nuevoUsuario;
 
@@ -193,11 +193,11 @@ namespace backend.Logica
                 nuevoUsuario = new Comprador
                 {
                     Nombre = nombre,
-                    Nick_name = nick_name,
+                    NickName = NickName,
                     Contraseña = contraseña,
                     Email = email,
                     Edad = edad,
-                    Limite_gasto_cents_mes = limiteGasto.Value
+                    LimiteGastoCentsMes = limiteGasto.Value
                 };
             }
             else
@@ -206,7 +206,7 @@ namespace backend.Logica
                 nuevoUsuario = new Usuario
                 {
                     Nombre = nombre,
-                    Nick_name = nick_name,
+                    NickName = NickName,
                     Contraseña = contraseña,
                     Email = email,
                     Edad = edad
@@ -218,56 +218,79 @@ namespace backend.Logica
         }
 
         // Método para agregar usuario a la base de datos
-        public void AgregarUsuarioABaseDeDatos(Usuario usuario,int? limiteGasto)
+        public void SeleccionarProductoYAgregarAlCarrito(string nombreProducto, int idUsuario)
         {
+            IList<Producto> productos = ObtenerProductosPorNombre(nombreProducto);
 
-
-            // Aquí debes llamar a los métodos de tu capa de persistencia para insertar el usuario en la base de datos
-            Usuario usuario2;
-            if (usuario is Comprador)
+            if (productos.Count == 0)
             {
-                // Si el usuario es un Comprador, insertamos primero el Usuario y luego el Comprador
-
-                // Insertar el Usuario en la tabla de Usuarios
-                usuario2 = new Usuario{
-                    Nombre = usuario.Nombre,
-                    Nick_name = usuario.Nick_name,
-                    Contraseña = usuario.Contraseña,
-                    Email = usuario.Email,
-                    Edad = usuario.Edad
-                };
-                try
-                {
-                    AddMember(usuario2);
-                }
-                catch (Exception ex)
-                {
-                    // Manejar la excepción, registrarla, imprimir información de depuración, etc.
-                    Console.WriteLine("Error al insertar usuario en la base de datos: " + ex.Message);
-                }
-
-                // Obtener el ID del Usuario recién insertado
-                int usuarioId = usuario2.Id;
-
-                // Insertar el Comprador en la tabla de Compradores
-                interf.InsertarBuyer(new Comprador
-                {
-                    Id = usuarioId, // Utilizar el mismo ID del Usuario
-                    Limite_gasto_cents_mes = ((Comprador)usuario).Limite_gasto_cents_mes
-                    // Otros atributos específicos de Comprador
-                });
-
+                throw new Exception("No se encontraron productos con el nombre especificado.");
+            }
+            else if (productos.Count > 1)
+            {
+                throw new Exception("Se encontraron múltiples productos con el mismo nombre. Especifique un nombre más específico.");
             }
             else
             {
-                // Si es un usuario normal, lo insertamos directamente en la tabla de Usuarios
-                AddMember(usuario);
+                // Obtener el único producto encontrado
+                Producto producto = productos[0];
 
+                // Crear un nuevo elemento de CarritoCompra
+                CarritoCompra nuevoElemento = new CarritoCompra
+                {
+                    IdUsuario = idUsuario,
+                    IdProducto = producto.Id,
+                    Comprador = new Comprador { Id = idUsuario },
+                    Producto = producto
+                };
+
+                // Insertar el nuevo elemento de CarritoCompra en la base de datos
+                interf.InsertarCarrito(nuevoElemento);
             }
         }
+
+
+
+        public IList<Producto> ObtenerProductosPorNombre(string nombre)
+        {
+            var productosTask = interf.GetAllProducts(); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            List<Producto> productos = productosTask.Result;
+            
+            // Filtrar los productos por nombre
+            var productosFiltrados = productos.Where(p => p.Articulo.Nombre.Contains(nombre)).ToList();
+            
+            return productosFiltrados;
+        }
+
+        // public void SeleccionarProductoYAgregarAlCarrito(string nombreProducto, int idUsuario)
+        // {
+        //     // Obtener el producto por su nombre
+        //     IList<Producto> productos = ObtenerProductosPorNombre(nombreProducto);
+
+        //     if (productos.Count == 0)
+        //     {
+        //         // Manejar el caso en el que no se encuentra ningún producto con el nombre dado
+        //         throw new Exception("No se encontraron productos con el nombre especificado.");
+        //     }
+        //     else if (productos.Count > 1)
+        //     {
+        //         // Manejar el caso en el que se encuentran múltiples productos con el mismo nombre
+        //         throw new Exception("Se encontraron múltiples productos con el mismo nombre. Especifique un nombre más específico.");
+        //     }
+        //     else
+        //     {
+        //         // Obtener el único producto encontrado
+        //         Producto producto = productos[0];
+
+        //         // Agregar el producto al carrito
+        //         AgregarAlCarrito(idUsuario, producto.Id);
+        //     }
+        // }
+
 /*
         // Método fábrica para crear usuarios
-        public void CrearUsuario2(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null)
+        public void CrearUsuario2(string nombre, string NickName, string contraseña, string email, int edad, int? limiteGasto = null)
         {
             Usuario nuevoUsuario;
             Comprador nuevousuario2;
@@ -276,7 +299,7 @@ namespace backend.Logica
                 nuevoUsuario = new Usuario
                 {
                     Nombre = nombre,
-                    Nick_name = nick_name,
+                    NickName = NickName,
                     Contraseña = contraseña,
                     Email = email,
                     Edad = edad
@@ -312,7 +335,7 @@ namespace backend.Logica
             interf.InsertarBuyer(new Comprador
             {
                 Id = usuarioId, // Utilizar el mismo ID del Usuario
-                Limite_gasto_cents_mes = ((Comprador)usuario).Limite_gasto_cents_mes
+                LimiteGastoCentsMes = ((Comprador)usuario).LimiteGastoCentsMes
                 // Otros atributos específicos de Comprador
             });
 
