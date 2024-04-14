@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\javie\\source\\repos\\backend\\backend.csproj": {}
+    "C:\\Users\\javie\\source\\repos\\backend\\backend.csproj": {}
   },
   "projects": {
-    "c:\\Users\\javie\\source\\repos\\backend\\backend.csproj": {
+    "C:\\Users\\javie\\source\\repos\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\javie\\source\\repos\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\javie\\source\\repos\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "c:\\Users\\javie\\source\\repos\\backend\\backend.csproj",
+        "projectPath": "C:\\Users\\javie\\source\\repos\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\javie\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\javie\\source\\repos\\backend\\obj\\",
+        "outputPath": "C:\\Users\\javie\\source\\repos\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\javie\\AppData\\Roaming\\NuGet\\NuGet.Config",
