@@ -204,6 +204,6 @@ namespace backend.Services
                     .Insert(nuevocarrito);
             Console.WriteLine("Carrito insertado correctamente en Supabase.");
         }
-        
+
     }
 }

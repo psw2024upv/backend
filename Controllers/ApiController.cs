@@ -83,20 +83,19 @@ namespace backend.Controllers
         }
 
 
-
-        [HttpPost("carrito/agregar")]
-        public IActionResult SeleccionarProductoYAgregarAlCarrito([FromBody] SeleccionProductoCarritoRequest request)
-        {
-            try
-            {
-                _logica.SeleccionarProductoYAgregarAlCarrito(request.NombreProducto, request.IdUsuario);
-                return Ok("Producto agregado al carrito exitosamente.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal Server Error: " + ex.Message);
-            }
-        }
+        // [HttpPost("carrito/agregar")]
+        // public IActionResult SeleccionarProductoYAgregarAlCarrito([FromBody] SeleccionProductoCarritoRequest request)
+        // {
+        //     try
+        //     {
+        //         _logica.SeleccionarProductoYAgregarAlCarrito(request.NombreProducto, request.IdUsuario);
+        //         return Ok("Producto agregado al carrito exitosamente.");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, "Internal Server Error: " + ex.Message);
+        //     }
+        // }
 
         [HttpGet("productos/buscar")]
         public IActionResult BuscarProductosPorNombre([FromQuery] string nombre)
@@ -112,11 +111,43 @@ namespace backend.Controllers
             }
         }
 
+        [HttpGet("productos/nombres")]
+        public IActionResult ObtenerNombresProductos()
+        {
+            try
+            {
+                var nombresProductos = _logica.ObtenerNombresProductos();
+                return Ok(nombresProductos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
+        }
+
+        [HttpPost("carrito/agregar")]
+        public IActionResult AgregarProductoAlCarrito([FromBody] CarritoCompraRequest request)
+        {
+            try
+            {
+                _logica.AgregarProductoAlCarrito(request.ProductId, request.UserId);
+                return Ok("Producto agregado al carrito exitosamente.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
+        }
+
+
+        
+
         public class SeleccionProductoCarritoRequest
         {
             public string NombreProducto { get; set; }
             public int IdUsuario { get; set; }
         }
+        
 
 
 

@@ -1,14 +1,30 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using Postgrest.Attributes;
+using Postgrest.Models;
+
 
 namespace backend.Models
 {
-    public class Usuario
+    [Table("usuario")]
+    public class Usuario : BaseModel
     {
+        [PrimaryKey("id", false)]
         public int Id { get; set; }
+
+
+        [Column("nombre")]
         public string Nombre { get; set; }
-        public string NickName { get; set; }
+
+        [Column("nick_name")]
+        public string Nick_name { get; set; }
+
+        [Column("contraseña")]
         public string Contraseña { get; set; }
+
+        [Column("email")]
         public string Email { get; set; }
+
+        [Column("edad")]
         public int Edad { get; set; }
+
     }
 }
