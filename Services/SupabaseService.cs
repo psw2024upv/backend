@@ -88,6 +88,26 @@ namespace backend.Services
             return productos1;
         }
 
+        public async Task<List<CarritoCompra>> GetChart()
+        {
+            var productos = await _supabaseClient
+                                .From<CarritoCompra>()
+                                .Get();
+
+            List <CarritoCompra> productos1 = productos.Models;
+            return productos1;
+        }
+
+        public async Task<List<Articulo>> GetAllArticles()
+        {
+            var productos = await _supabaseClient
+                                .From<Articulo>()
+                                .Get();
+
+            List <Articulo> productos1 = productos.Models;
+            return productos1;
+        }
+
         public async Task<List<Usuario>> GetAllUsers()
         {
             var users = await _supabaseClient

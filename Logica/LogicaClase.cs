@@ -23,6 +23,24 @@ namespace backend.Logica
             return productos1;
         }
 
+        public IList<CarritoCompra> ObtenerChart()
+        {
+            var productosTask = interf.GetChart(); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            List<CarritoCompra> productos1 = productosTask.Result;
+            return productos1;
+        }
+
+        public IList<Articulo> ObtenerArticulo()
+        {
+            var productosTask = interf.GetAllArticles(); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            List<Articulo> productos1 = productosTask.Result;
+            return productos1;
+        }
+
         public IList<Usuario> ObtenerUsuarios()
         {
             var productosTask = interf.GetAllUsers(); // Obtiene la tarea para obtener todos los productos
@@ -59,6 +77,45 @@ namespace backend.Logica
 
             
             allContents = allContents.Where(c => c.Precio_cents==keyWords).ToList();
+            
+
+            return allContents.ToList();
+        }
+
+        public IList<CarritoCompra> GetChartByUser(Usuario user)
+        {
+            
+
+            IList<CarritoCompra> allContents = ObtenerChart();
+
+            
+            allContents = allContents.Where(c => c.Id_usuario==user.Id).ToList();
+            
+
+            return allContents.ToList();
+        }
+
+        public IList<Producto> GetProductByChart(CarritoCompra carr)
+        {
+            
+
+            IList<Producto> allContents = ObtenerProductos();
+
+            
+            allContents = allContents.Where(c => c.Id==carr.Id_producto).ToList();
+            
+
+            return allContents.ToList();
+        }
+
+        public IList<Articulo> GetArticleByProduct(Producto prod)
+        {
+            
+
+            IList<Articulo> allContents = ObtenerArticulo();
+
+            
+            allContents = allContents.Where(c => c.Id==prod.Id_articulo).ToList();
             
 
             return allContents.ToList();
