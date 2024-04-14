@@ -151,6 +151,24 @@ namespace backend.Controllers
             return Ok(perfil);
         }
 
+        [HttpGet("productos/buscar")]
+        public IActionResult BuscarProductosPorNombre([FromQuery] string nombre)
+        {
+            try
+            {
+                var productos = _logica.ObtenerProductosPorNombre(nombre);
+                return Ok(productos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
+        }
+
+
+
+        
+
 
 
 

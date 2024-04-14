@@ -21,10 +21,16 @@ namespace backend.Models
 
         [Column("id_articulo")]
         public int Id_articulo { get; set; }
-        // Otros campos que puedas necesitar
 
+        public Vendedor Vendedor { get; set; }
+        /*
+        C:\Users\marius\Documents\proyectosPersonales\psw\backend\Logica\LogicaClase.cs(338,61): error CS1061: 
+        'Producto' does not contain a definition for 'Articulo' and no accessible extension method 'Articulo' 
+        accepting a first argument of type 'Producto' could be found (are you missing a using directive or
+         an assembly reference?) [C:\Users\marius\Documents\proyectosPersonales\psw\backend\backend.csproj]
+        */
 
-        // Relación con Cliente si es necesario
+        public Articulo Articulo { get; set; }
 
     }
 }

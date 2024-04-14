@@ -329,6 +329,16 @@ namespace backend.Logica
 
             }
         }
+
+        public IList<Producto> ObtenerProductosPorNombre(string nombre)
+        {        
+            var productosTask = interf.GetAllProducts(); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            List<Producto> productos = productosTask.Result;
+            var productosFiltrados = productos.Where(p => p.Articulo.Nombre.Contains(nombre)).ToList();
+
+            return productosFiltrados;
+        }
 /*
         // Método fábrica para crear usuarios
         public void CrearUsuario2(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null)
