@@ -167,6 +167,13 @@ namespace backend.Logica
             return user;
         }
 
+        public void Logout()
+        {
+            if(userlogin == null) throw new Exception("Usuario no loggeado");
+            userlogin = null;
+            DateTime fechaacceso = DateTime.Now;
+        }
+
 
         public  Usuario ObtenerUsuarioPorNick(string nick)
         {

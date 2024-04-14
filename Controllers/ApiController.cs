@@ -19,8 +19,42 @@ namespace backend.Controllers
         [HttpPost("carrito")]
         public IActionResult AgregarAlCarrito([FromBody] CarritoCompraRequest request)
         {
+            // Obtener el usuario logueado
+            var user = _logica.UserLogged();
+
+            // Verificar si el usuario está autenticado
+            if (user == null)
+            {
+                // El usuario no está autenticado, puedes devolver un error o redirigir a la página de inicio de sesión
+                return Unauthorized();
+            }
+            var userId = user.Id;
+            _logica.AgregarAlCarrito(userId, request.ProductId);
+            return Ok();
+        }
+
+        [HttpPost("carritomanual")]
+        public IActionResult AgregarAlCarritoManual([FromBody] CarritoCompraRequest2 request)
+        {
             _logica.AgregarAlCarrito(request.UserId, request.ProductId);
             return Ok();
+        }
+
+        [HttpGet("userlogged")]
+        public IActionResult ObtenerUsuarioLogueado()
+        {
+            // Obtener el usuario logueado
+            var user = _logica.UserLogged();
+
+            // Verificar si el usuario está autenticado
+            if (user == null)
+            {
+                // El usuario no está autenticado, puedes devolver un error o redirigir a la página de inicio de sesión
+                return Unauthorized();
+            }
+
+            // Devolver el usuario logueado
+            return Ok(user);
         }
 
         [HttpGet("productos")]
@@ -124,7 +158,11 @@ namespace backend.Controllers
 
         public class CarritoCompraRequest
         {
-            public int UserId { get; set; }
+            public int ProductId { get; set; }
+        }
+        public class CarritoCompraRequest2
+        {
+            public int UserId {get; set; }
             public int ProductId { get; set; }
         }
 
