@@ -15,11 +15,5 @@ namespace backend.Models
         [Column("id_producto")]
         public int Id_producto { get; set; }
 
-        
-        // Otros campos que puedas necesitar
-
-
-        // Relación con Cliente si es necesario
-
     }
 }

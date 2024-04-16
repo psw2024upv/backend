@@ -11,11 +11,5 @@ namespace backend.Models
         [Column("limite_gasto_cents_mes")]
         public int Limite_gasto_cents_mes { get; set; }
 
-        
-        // Otros campos que puedas necesitar
-
-
-        // Relación con Cliente si es necesario
-
     }
 }

@@ -53,3 +53,7 @@ docfx_project/
 *.launch
 *.vspscc
 *.vssscc
+obj/backend.csproj.nuget.dgspec.json
+obj/backend.csproj.nuget.g.props
+obj/project.assets.json
+obj/project.nuget.cache
