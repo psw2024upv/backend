@@ -86,38 +86,54 @@ namespace backend.Controllers
         }
 
         [HttpPost("login2")]
-        public IActionResult Login2([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login2([FromBody] LoginRequest request)
         {
-            _logica.Login(request.Nick, request.Password);
-            var perfil = _logica.ObtenerUsuarioPorNick(request.Nick);
-            var user = _logica.GetChartByUser(perfil);
-            var productos = new List<Producto>();
-            var items = new List<Articulo>();
+            try
+            {
+                await _logica.Login(request.Nick, request.Password);
+                var perfil = _logica.ObtenerUsuarioPorNick(request.Nick);
+                var user = _logica.GetChartByUser(perfil);
+                var productos = new List<Producto>();
+                var items = new List<Articulo>();
 
-            // Para cada carrito en la lista de carritos
-            foreach(var product in user)
-            {
-                // Obtener los artículos asociados al producto
-                var productItems = _logica.GetProductByChart(product);
-                
-                // Agregar los artículos a la lista de items
-                productos.AddRange(productItems);
-            }
-            foreach(var prod in productos)
-            {
-                // Obtener los artículos asociados al producto
-                var productItems = _logica.GetArticleByProduct(prod);
-                
-                // Agregar los artículos a la lista de items
-                items.AddRange(productItems);
-            }
+                // Para cada carrito en la lista de carritos
+                foreach(var product in user)
+                {
+                    // Obtener los artículos asociados al producto
+                    var productItems = _logica.GetProductByChart(product);
+                    
+                    // Agregar los artículos a la lista de items
+                    productos.AddRange(productItems);
+                }
+                foreach(var prod in productos)
+                {
+                    // Obtener los artículos asociados al producto
+                    var productItems = _logica.GetArticleByProduct(prod);
+                    
+                    // Agregar los artículos a la lista de items
+                    items.AddRange(productItems);
+                }
 
-            var responseData = new 
+                var responseData = new 
+                {
+                    Perfil = perfil,
+                    ArticulosEnCarrito = items
+                };
+
+                return Ok(responseData);
+            }
+            catch(UsuarioNoExisteException ex)
             {
-                Perfil = perfil,
-                ArticulosEnCarrito = items
-            };
-            return Ok(responseData);
+                return NotFound("Usuario no encontrado: " + ex.Message);
+            }
+            catch(ContraseñaIncorrectaException ex)
+            {
+                return Unauthorized("Contraseña incorrecta: " + ex.Message);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, "Error: " + ex.Message);
+            }
         }
 
         [HttpPost("registro")]

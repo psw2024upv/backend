@@ -182,14 +182,14 @@ namespace backend.Logica
 
         }
 
-        public async void Login(String nick, String password)
+        public async Task Login(String nick, String password)
         {
-            if(nick == "" || password == "" ) throw new Exception("Existen campos vacíos");
+            if(nick == "" || password == "" ) throw new CamposVaciosException("Existen campos vacíos");
 
-            if (await interf.UsuarioExistePorApodo(nick)==false) throw new Exception("El usuario no existe");
+            if (await interf.UsuarioExistePorApodo(nick)==false) throw new UsuarioNoExisteException("El usuario no existe");
             Usuario user =  await interf.UserByNick(nick);
             
-            if (!user.Contraseña.Equals(password)) throw new Exception("Contraseña incorrecta");
+            if (!user.Contraseña.Equals(password)) throw new ContraseñaIncorrectaException("Contraseña incorrecta");
             userlogin = user;
             Console.WriteLine("Usuario con nick :" + user.Nick_name + "y contraseña :" + user.Contraseña + " logueado");
         }

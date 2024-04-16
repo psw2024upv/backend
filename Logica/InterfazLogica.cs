@@ -23,7 +23,7 @@ namespace backend.Logica
         Boolean Bool1(string nick);
         IList<Producto> GetContentsByParameters2(int keyWords);
         void AddMember(Usuario user);
-        void Login(String nick, String password);
+        Task Login(String nick, String password);
         Usuario UserLogged();
         Usuario ObtenerUsuarioPorNick(string nick);
         Producto ObtenerProductoPorPrecio(int nick);
