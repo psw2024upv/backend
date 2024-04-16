@@ -129,12 +129,12 @@ namespace backend.Controllers
                 if (request.LimiteGasto != null)
                 {
                     // El usuario es un comprador
-                    _logica.CrearUsuario(request.Nombre, request.Nick, request.Password, request.Email, request.Edad, request.LimiteGasto.Value);
+                    _logica.CrearUsuario2(request.Nombre, request.Nick, request.Password, request.Email, request.Edad, request.LimiteGasto.Value);
                 }
                 else
                 {
                     // El usuario es un usuario regular
-                    _logica.CrearUsuario(request.Nombre, request.Nick, request.Password, request.Email, request.Edad);
+                    _logica.CrearUsuario2(request.Nombre, request.Nick, request.Password, request.Email, request.Edad);
                 }
                 return Ok();
             }
@@ -149,6 +149,15 @@ namespace backend.Controllers
         {
             var perfil = _logica.ObtenerUsuarioPorNick(nick);
             return Ok(perfil);
+        }
+
+
+        [HttpPost("registrobuyer")]
+        public IActionResult Añadirbuyer(Buyer request)
+        {
+            
+            _logica.AddBuyer2(request.Idd,request.limite);
+            return Ok();
         }
 
 
@@ -180,6 +189,11 @@ namespace backend.Controllers
             public string Email { get; set; }
             public int Edad { get; set; }
             public int? LimiteGasto {get; set; }
+        }
+        public class Buyer
+        {
+            public int Idd { get; set; }
+            public int limite { get; set; }
         }
 
     }

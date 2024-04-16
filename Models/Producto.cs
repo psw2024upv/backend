@@ -21,10 +21,9 @@ namespace backend.Models
 
         [Column("id_articulo")]
         public int Id_articulo { get; set; }
-        // Otros campos que puedas necesitar
-
-
-        // Relación con Cliente si es necesario
+        public Vendedor Vendedor { get; set; }
+        
+        public Articulo Articulo { get; set; }
 
     }
 }

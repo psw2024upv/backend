@@ -34,6 +34,7 @@ namespace backend.Services
         Task InsertarBuyer(Comprador nuevobuyer);
         Task<List<CarritoCompra>> GetChart();
         Task<List<Articulo>> GetAllArticles();
+        Task Insert1<Comprador>(Comprador item) where Comprador : Usuario,new();
 
     }
 }

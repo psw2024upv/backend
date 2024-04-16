@@ -41,6 +41,10 @@ namespace backend.Logica
         IList<Producto> GetProductByChart(CarritoCompra carr);
         void Logout();
         IList<Articulo> GetArticlesByName(string keyWords);
+        void CrearUsuario2(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null);
+        void AddBuyer(Comprador comp);
+        void AddBuyer2(int idd, int limite);
+        IList<Producto> ObtenerProductosPorNombre(string nombre);
         //void AgregarUsuarioABaseDeDatos2(Usuario usuario, int? limiteGasto);
         //void CrearUsuario2(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null);
 

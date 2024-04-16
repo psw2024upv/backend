@@ -162,6 +162,26 @@ namespace backend.Logica
 
         }
 
+        public void AddBuyer(Comprador comp)
+        {
+            interf.InsertarBuyer(comp);
+            
+
+        }
+        public void AddBuyer2(int idd, int limite)
+        {
+            Comprador nuevoUsuario2;
+
+            nuevoUsuario2 = new Comprador
+                {
+                    Id = idd,
+                    Limite_gasto_cents_mes = limite
+                };
+            interf.Insert1<Comprador>(nuevoUsuario2);
+            
+
+        }
+
         public async void Login(String nick, String password)
         {
             if(nick == "" || password == "" ) throw new Exception("Existen campos vacíos");
@@ -342,15 +362,24 @@ namespace backend.Logica
 
             }
         }
-/*
+
+        public IList<Producto> ObtenerProductosPorNombre(string nombre)
+        {        
+            var productosTask = interf.GetAllProducts(); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            List<Producto> productos = productosTask.Result;
+            var productosFiltrados = productos.Where(p => p.Articulo.Nombre.Contains(nombre)).ToList();
+
+            return productosFiltrados;
+        }
+
         // Método fábrica para crear usuarios
         public void CrearUsuario2(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null)
         {
             Usuario nuevoUsuario;
-            Comprador nuevousuario2;
+            Comprador nuevoUsuario2;
 
-            // Crear un nuevo Usuario
-                nuevoUsuario = new Usuario
+            nuevoUsuario = new Usuario
                 {
                     Nombre = nombre,
                     Nick_name = nick_name,
@@ -358,25 +387,36 @@ namespace backend.Logica
                     Email = email,
                     Edad = edad
                 };
-
-            if (limiteGasto == null)
+            try
             {
+                AddMember(nuevoUsuario);    
 
-                
-                AgregarUsuarioABaseDeDatos(nuevoUsuario);
-                
+                if (limiteGasto != null && nuevoUsuario!=null)
+                {
+                    Usuario user2 = ObtenerUsuarioPorNick(nick_name);
+                    int usuarioId = user2.Id;
+                    Console.WriteLine(usuarioId);
+                    // Crear un nuevo Comprador
+                    nuevoUsuario2 = new Comprador
+                    {
+                        Id = usuarioId,
+                        Limite_gasto_cents_mes = limiteGasto.Value
+                    };
+                    AddBuyer(nuevoUsuario2);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                
-                AgregarUsuarioABaseDeDatos(nuevoUsuario);
-
-                
-                AgregarUsuarioABaseDeDatos2(nuevoUsuario,limiteGasto);
-
+                // Manejar la excepción
+                Console.WriteLine("Error al crear el usuario: " + ex.Message);
+                // Puedes lanzar la excepción o manejarla de otra manera según tus necesidades
             }
+            //AgregarUsuarioABaseDeDatos(nuevoUsuario,limiteGasto);
+
+            // Retornar el nuevo usuario creado
         }
 
+/*
         // Método para agregar usuario a la base de datos
         public void AgregarUsuarioABaseDeDatos2(Usuario usuario, int? limiteGasto)
         {

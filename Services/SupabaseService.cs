@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using backend.Models;
 using Postgrest.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace backend.Services
 {
@@ -189,6 +190,14 @@ namespace backend.Services
                     .From<Comprador>()
                     .Insert(nuevobuyer);
             Console.WriteLine("Comprador insertado correctamente en Supabase.");
+        }
+
+        public async Task Insert1<Comprador>(Comprador item) where Comprador : Usuario,new()
+        {
+
+            await _supabaseClient
+                    .From<Comprador>()
+                    .Insert(item);
         }
 
         public async Task<bool> UsuarioExistePorApodo(string apodo)
