@@ -32,7 +32,7 @@ namespace backend.Logica
             return productos1;
         }
 
-        public IList<Articulo> ObtenerArticulo()
+        public IList<Articulo> ObtenerArticulos()
         {
             var productosTask = interf.GetAllArticles(); // Obtiene la tarea para obtener todos los productos
             productosTask.Wait(); // Espera a que la tarea se complete
@@ -82,6 +82,19 @@ namespace backend.Logica
             return allContents.ToList();
         }
 
+        public IList<Articulo> GetArticlesByName(string keyWords)
+        {
+            
+
+            IList<Articulo> allContents = ObtenerArticulos();
+
+            
+            allContents = allContents.Where(c => c.Nombre==keyWords).ToList();
+            
+
+            return allContents.ToList();
+        }
+
         public IList<CarritoCompra> GetChartByUser(Usuario user)
         {
             
@@ -112,7 +125,7 @@ namespace backend.Logica
         {
             
 
-            IList<Articulo> allContents = ObtenerArticulo();
+            IList<Articulo> allContents = ObtenerArticulos();
 
             
             allContents = allContents.Where(c => c.Id==prod.Id_articulo).ToList();
@@ -153,12 +166,12 @@ namespace backend.Logica
         {
             if(nick == "" || password == "" ) throw new Exception("Existen campos vacíos");
 
-            if ( await interf.UsuarioExistePorApodo(nick)==false) throw new Exception("El usuario no existe");
+            if (await interf.UsuarioExistePorApodo(nick)==false) throw new Exception("El usuario no existe");
             Usuario user =  await interf.UserByNick(nick);
             
             if (!user.Contraseña.Equals(password)) throw new Exception("Contraseña incorrecta");
             userlogin = user;
-            Console.WriteLine("Usuario con nick :" + user.Nick_name + "y contraseña :" + user.Contraseña + "logueado");
+            Console.WriteLine("Usuario con nick :" + user.Nick_name + "y contraseña :" + user.Contraseña + " logueado");
         }
 
         public Usuario UserLogged()
