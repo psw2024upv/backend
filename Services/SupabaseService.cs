@@ -144,7 +144,7 @@ namespace backend.Services
         }
 
         
-
+/*
         public async Task<Comprador> BuyerByNick(string filtro)
         {
             var result = await _supabaseClient
@@ -157,7 +157,7 @@ namespace backend.Services
             Comprador users = result.Model;
             return users;                    
         }
-
+*/
         public async Task<Usuario> UserByAge(int filtro)
         {
             var result = await _supabaseClient
@@ -181,15 +181,33 @@ namespace backend.Services
             Console.WriteLine("User insertado correctamente en Supabase.");
         }
 
-        public async Task InsertarBuyer(Comprador nuevobuyer)
+        public async Task InsertarBuyerEnUsuarios(Comprador2 nuevouser)
         {
             
 
             // Inserta el nuevo producto en la tabla correspondiente
             await _supabaseClient
-                    .From<Comprador>()
-                    .Insert(nuevobuyer);
-            Console.WriteLine("Comprador insertado correctamente en Supabase.");
+                    .From<Comprador2>()
+                    .Insert(nuevouser);
+            Console.WriteLine("User insertado correctamente en Supabase.");
+        }
+
+        public async Task InsertarBuyer(Comprador3 nuevobuyer)
+        {
+            try{
+
+                // Inserta el nuevo producto en la tabla correspondiente
+                await _supabaseClient
+                        .From<Comprador3>()
+                        //.Set(x => x.Id, 13)
+                        .Insert(nuevobuyer);
+                Console.WriteLine("Comprador insertado correctamente en Supabase.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al insertar comprador en Supabase: " + ex.Message);
+                throw; // Lanza la excepción para propagarla hacia arriba
+            }
         }
 
         public async Task Insert1<Comprador>(Comprador item) where Comprador : Usuario,new()

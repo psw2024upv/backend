@@ -164,20 +164,48 @@ namespace backend.Logica
 
         public void AddBuyer(Comprador comp)
         {
-            interf.InsertarBuyer(comp);
+            //interf.InsertarBuyer(comp);
             
 
         }
-        public void AddBuyer2(int idd, int limite)
-        {
-            Comprador nuevoUsuario2;
 
-            nuevoUsuario2 = new Comprador
+        public void AddBuyer22(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null)
+        {
+            Comprador2 nuevoUsuario2;
+
+            nuevoUsuario2 = new Comprador2
                 {
-                    Id = idd,
-                    Limite_gasto_cents_mes = limite
+                    Nombre = nombre,
+                    Nick_name = nick_name,
+                    Contraseña = contraseña,
+                    Email = email,
+                    Edad = edad,
                 };
-            interf.Insert1<Comprador>(nuevoUsuario2);
+
+            interf.InsertarBuyerEnUsuarios(nuevoUsuario2);
+            
+
+        }
+        public void AddBuyer2(int limite)
+        {
+
+            Usuario nuevoUsuario2 = ObtenerUsuarioPorNick("luis456");
+
+            Comprador3 nuevoUsuario3 = new Comprador3
+            {
+                Id = nuevoUsuario2.Id ,
+                Nombre = nuevoUsuario2.Nombre,
+                Nick_name = nuevoUsuario2.Nick_name,
+                Contraseña = nuevoUsuario2.Contraseña,
+                Email = nuevoUsuario2.Email,
+                Edad = nuevoUsuario2.Edad,
+                BaseUrl = nuevoUsuario2.BaseUrl,
+                Limite_gasto_cents_mes = limite
+                
+            };
+            Console.WriteLine("El id es :" + nuevoUsuario2.PrimaryKey);
+    
+            interf.InsertarBuyer(nuevoUsuario3);
             
 
         }
@@ -227,6 +255,7 @@ namespace backend.Logica
             Producto user1 = productosTask.Result;
             return user1;
         }
+        /*
         public  Comprador ObtenerCompradorPorNick(string nick)
         {
 
@@ -236,7 +265,7 @@ namespace backend.Logica
             Comprador user1 = productosTask.Result;
             return user1;
         }
-
+*/
         public  Usuario ObtenerUsuarioPorEdad(int edad)
         {
 
@@ -278,7 +307,7 @@ namespace backend.Logica
             
         }
 
-
+/*
         // Método fábrica para crear usuarios
         public void CrearUsuario(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null)
         {

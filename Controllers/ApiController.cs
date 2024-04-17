@@ -135,7 +135,7 @@ namespace backend.Controllers
                 return StatusCode(500, "Error: " + ex.Message);
             }
         }
-
+/*
         [HttpPost("registro")]
         public IActionResult RegistrarComprador([FromBody] RegistroRequest request)
         {
@@ -159,14 +159,14 @@ namespace backend.Controllers
                 return StatusCode(500, "Internal Server Error : " + ex.Message);
             }
         }
-
+*/
         [HttpGet("perfil/{nick}")]
         public IActionResult ObtenerPerfilComprador(string nick)
         {
             var perfil = _logica.ObtenerUsuarioPorNick(nick);
             return Ok(perfil);
         }
-
+/*
         [HttpGet("productos/buscar")]
         public IActionResult BuscarProductosPorNombre([FromQuery] string nombre)
         {
@@ -182,7 +182,7 @@ namespace backend.Controllers
         }
 
 
-
+*/
         
 
 
@@ -190,7 +190,15 @@ namespace backend.Controllers
         public IActionResult Añadirbuyer(Buyer request)
         {
             
-            _logica.AddBuyer2(request.Idd,request.limite);
+            _logica.AddBuyer2(request.limite);
+            return Ok();
+        }
+
+        [HttpPost("registrobuyer2")]
+        public IActionResult Añadirbuyer2(RegistroRequest request)
+        {
+            
+            _logica.AddBuyer22(request.Nombre, request.Nick, request.Password, request.Email, request.Edad);
             return Ok();
         }
 
@@ -226,7 +234,7 @@ namespace backend.Controllers
         }
         public class Buyer
         {
-            public int Idd { get; set; }
+
             public int limite { get; set; }
         }
 

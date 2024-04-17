@@ -29,12 +29,13 @@ namespace backend.Services
         Task<Usuario> UpdateAgeUser(Usuario usuario,int edad1 ,int edad);
         Task<Usuario> UserByAge(int filtro);
         Task InsertarCarrito(CarritoCompra nuevocarrito);
-        Task<Comprador> BuyerByNick(string filtro);
+        //Task<Comprador> BuyerByNick(string filtro);
         Task<Producto> ProductByPrice(int filtro);
-        Task InsertarBuyer(Comprador nuevobuyer);
+        Task InsertarBuyer(Comprador3 nuevobuyer);
         Task<List<CarritoCompra>> GetChart();
         Task<List<Articulo>> GetAllArticles();
         Task Insert1<Comprador>(Comprador item) where Comprador : Usuario,new();
+        Task InsertarBuyerEnUsuarios(Comprador2 nuevouser);
 
     }
 }
