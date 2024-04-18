@@ -202,7 +202,23 @@ namespace backend.Controllers
             return Ok();
         }
 
+        [HttpPost("registroglobal")]
+        public IActionResult RegistroGlobl(RegistroRequest request)
+        {
+            
+            _logica.AddFabrica(request.Nombre, request.Nick, request.Password, request.Email, request.Edad, request.LimiteGasto);
+            return Ok();
+        }
 
+        public class RegistroRequest
+        {
+            public string Nombre { get; set; }
+            public string Nick { get; set; }
+            public string Password { get; set; }
+            public string Email { get; set; }
+            public int Edad { get; set; }
+            public int LimiteGasto {get; set; }
+        }
 
 
 
@@ -223,15 +239,7 @@ namespace backend.Controllers
             public string Password { get; set; }
         }
 
-        public class RegistroRequest
-        {
-            public string Nombre { get; set; }
-            public string Nick { get; set; }
-            public string Password { get; set; }
-            public string Email { get; set; }
-            public int Edad { get; set; }
-            public int? LimiteGasto {get; set; }
-        }
+        
         public class Buyer
         {
 

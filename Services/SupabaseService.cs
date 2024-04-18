@@ -10,6 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using backend.Models;
 using Postgrest.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using backend.MetodoFabrica;
 
 namespace backend.Services
 {
@@ -120,6 +121,8 @@ namespace backend.Services
         
         }
 
+
+
         public async Task<Usuario> UserByNick(string filtro)
         {
             var result = await _supabaseClient
@@ -181,6 +184,47 @@ namespace backend.Services
             Console.WriteLine("User insertado correctamente en Supabase.");
         }
 
+        public async Task InsertarUserFactory(UsuarioFabrica nuevouser)
+        {
+            try{
+
+                // Inserta el nuevo producto en la tabla correspondiente
+                await _supabaseClient
+                        .From<UsuarioFabrica>()
+                        .Insert(nuevouser);
+                Console.WriteLine("User insertado correctamente en Supabase.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al insertar userfactory en Supabase: " + ex.Message);
+                throw; // Lanza la excepción para propagarla hacia arriba
+            }
+            
+        }
+
+        public async Task InsertarBuyerFactory(UsuarioComprador nuevouser)
+        {
+            
+
+            // Inserta el nuevo producto en la tabla correspondiente
+            await _supabaseClient
+                    .From<UsuarioComprador>()
+                    .Insert(nuevouser);
+            Console.WriteLine("Compradorfactory insertado correctamente en Supabase.");
+        }
+
+        public async Task InsertarSellerFactory(UsuarioVendedor nuevouser)
+        {
+            
+
+            // Inserta el nuevo producto en la tabla correspondiente
+            await _supabaseClient
+                    .From<UsuarioVendedor>()
+                    .Insert(nuevouser);
+            Console.WriteLine("Vendedorfactory insertado correctamente en Supabase.");
+        }
+
+
         public async Task InsertarBuyerEnUsuarios(Comprador2 nuevouser)
         {
             
@@ -192,13 +236,13 @@ namespace backend.Services
             Console.WriteLine("User insertado correctamente en Supabase.");
         }
 
-        public async Task InsertarBuyer(Comprador3 nuevobuyer)
+        public async Task InsertarBuyer(Comprador nuevobuyer)
         {
             try{
 
                 // Inserta el nuevo producto en la tabla correspondiente
                 await _supabaseClient
-                        .From<Comprador3>()
+                        .From<Comprador>()
                         //.Set(x => x.Id, 13)
                         .Insert(nuevobuyer);
                 Console.WriteLine("Comprador insertado correctamente en Supabase.");
@@ -250,6 +294,19 @@ namespace backend.Services
                     .From<CarritoCompra>()
                     .Insert(nuevocarrito);
             Console.WriteLine("Carrito insertado correctamente en Supabase.");
+        }
+
+        public async Task<UsuarioFabrica> UsuarioFabricaByNick(string filtro)
+        {
+            var result = await _supabaseClient
+                                .From<UsuarioFabrica>()
+                                .Select("*,usuario:nick_name")
+                                .Where(x => x.Nick_name == filtro)
+                                .Get();
+            
+                                
+            UsuarioFabrica users = result.Model;
+            return users;                    
         }
         
     }

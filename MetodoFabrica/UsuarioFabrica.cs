@@ -4,7 +4,7 @@ using Postgrest.Models;
 namespace backend.MetodoFabrica
 {
     [Table("usuario")]
-    public abstract class UsuarioFabrica : BaseModel
+    public class UsuarioFabrica : BaseModel
     {
         [PrimaryKey("id", false)]
         public int Id { get; set; }
@@ -25,10 +25,18 @@ namespace backend.MetodoFabrica
         [Column("edad")]
         public int Edad { get; set; }
 
-        // Otros campos que puedas necesitar
-
-
-        // Relación con Cliente si es necesario
+        public UsuarioFabrica(string nombre, string nick_name, string contraseña, string email, int edad)
+        {
+            Nombre = nombre;
+            Nick_name = nick_name;
+            Contraseña = contraseña;
+            Email = email;
+            Edad = edad;
+        }
+        public UsuarioFabrica()
+        {
+            // Puedes inicializar propiedades comunes aquí si es necesario
+        }
 
     }
 }

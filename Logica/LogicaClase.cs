@@ -1,6 +1,7 @@
 using backend.Services;
 using backend.Models;
 using System.Collections.Generic;
+using backend.MetodoFabrica;
 
 namespace backend.Logica
 {
@@ -50,7 +51,9 @@ namespace backend.Logica
             return productos1;
         }
 
-        public List<Usuario> ObtenerUsuarios2()
+
+
+        public IList<Usuario> ObtenerUsuarios2()
         {
             var productosTask = interf.GetAllUsers(); // Obtiene la tarea para obtener todos los productos
             productosTask.Wait(); // Espera a que la tarea se complete
@@ -162,6 +165,34 @@ namespace backend.Logica
 
         }
 
+        public async Task AddFactoryMember(UsuarioFabrica nuevouser)
+        {
+
+            
+            IList<Usuario> allUsers = ObtenerUsuarios();
+
+
+            bool nicknamebool = allUsers.Any(u => u.Nick_name == nuevouser.Nick_name);
+
+            // Verificar si ya existe un miembro con el mismo correo electrónico
+            bool emailbool = allUsers.Any(u => u.Email == nuevouser.Email);
+
+
+            if (!nicknamebool && !emailbool)
+            {
+                await interf.InsertarUserFactory(nuevouser);
+            }
+            else
+            {
+                if (nicknamebool)
+                    throw new Exception("El member con nick " + nuevouser.Nick_name + " ya existe.");
+
+                if (emailbool)
+                    throw new Exception("El member con correo electrónico " + nuevouser.Email + " ya existe.");
+            }
+
+        }
+
         public void AddBuyer(Comprador comp)
         {
             //interf.InsertarBuyer(comp);
@@ -189,9 +220,9 @@ namespace backend.Logica
         public void AddBuyer2(int limite)
         {
 
-            Usuario nuevoUsuario2 = ObtenerUsuarioPorNick("luis456");
+            Usuario nuevoUsuario2 = ObtenerUsuarioPorNick("anita1234");
 
-            Comprador3 nuevoUsuario3 = new Comprador3
+            Comprador nuevoUsuario3 = new Comprador
             {
                 Id = nuevoUsuario2.Id ,
                 Nombre = nuevoUsuario2.Nombre,
@@ -209,6 +240,57 @@ namespace backend.Logica
             
 
         }
+
+        public async Task AddFabrica(string nombre, string nick_name, string contraseña, string email, int edad, int limite)
+        {
+            Fabrica factory;
+            factory = new Fabrica(limite);
+            UsuarioFabrica userfactory = factory.CrearUsuarioFabrica(nombre, nick_name, contraseña, email, edad);
+            await AddFactoryMember(userfactory);
+            UsuarioFabrica user1 = await ObtenerFabricUserPorNick(userfactory.Nick_name);
+            int id = user1.Id;
+            if (userfactory is UsuarioComprador comprador)
+            {
+                comprador.Id = id;
+                interf.InsertarBuyerFactory(comprador);
+                Console.WriteLine("Hola comprador");
+                //UsuarioComprador comprador = (UsuarioComprador)userfactory;
+                //interf.InsertarBuyerFactory(userfactory);
+                // Persistir en la tabla de usuarios compradores
+                // Podrías llamar a un método de persistencia para hacerlo
+                // Por ejemplo: PersistirUsuarioComprador((UsuarioComprador)userfactory);
+            }
+            else if (userfactory is UsuarioVendedor vendedor)
+            {
+                vendedor.Id = id;
+                interf.InsertarSellerFactory(vendedor);
+                // Persistir en la tabla de usuarios vendedores
+                // Podrías llamar a un método de persistencia para hacerlo
+                // Por ejemplo: PersistirUsuarioVendedor((UsuarioVendedor)userfactory);
+            }
+        }
+/*
+
+            Usuario nuevoUsuario2 = ObtenerUsuarioPorNick("anita1234");
+
+            Comprador nuevoUsuario3 = new Comprador
+            {
+                Id = nuevoUsuario2.Id ,
+                Nombre = nuevoUsuario2.Nombre,
+                Nick_name = nuevoUsuario2.Nick_name,
+                Contraseña = nuevoUsuario2.Contraseña,
+                Email = nuevoUsuario2.Email,
+                Edad = nuevoUsuario2.Edad,
+                BaseUrl = nuevoUsuario2.BaseUrl,
+                Limite_gasto_cents_mes = limite
+                
+            };
+            Console.WriteLine("El id es :" + nuevoUsuario2.PrimaryKey);
+    
+            interf.InsertarBuyer(nuevoUsuario3);
+            */
+
+        
 
         public async Task Login(String nick, String password)
         {
@@ -266,6 +348,15 @@ namespace backend.Logica
             return user1;
         }
 */
+        public  async Task<UsuarioFabrica> ObtenerFabricUserPorNick(string nick)
+        {
+
+            var productosTask = interf.UsuarioFabricaByNick(nick); // Obtiene la tarea para obtener todos los productos
+            productosTask.Wait(); // Espera a que la tarea se complete
+            //return productosTask.Result;
+            UsuarioFabrica user1 = productosTask.Result;
+            return user1;
+        }
         public  Usuario ObtenerUsuarioPorEdad(int edad)
         {
 

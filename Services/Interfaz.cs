@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using backend.Models;
 using Postgrest.Models;
+using backend.MetodoFabrica;
 
 namespace backend.Services
 {
@@ -31,11 +32,14 @@ namespace backend.Services
         Task InsertarCarrito(CarritoCompra nuevocarrito);
         //Task<Comprador> BuyerByNick(string filtro);
         Task<Producto> ProductByPrice(int filtro);
-        Task InsertarBuyer(Comprador3 nuevobuyer);
+        Task InsertarBuyer(Comprador nuevobuyer);
         Task<List<CarritoCompra>> GetChart();
         Task<List<Articulo>> GetAllArticles();
         Task Insert1<Comprador>(Comprador item) where Comprador : Usuario,new();
         Task InsertarBuyerEnUsuarios(Comprador2 nuevouser);
-
+        Task InsertarUserFactory(UsuarioFabrica nuevouser);
+        Task InsertarBuyerFactory(UsuarioComprador nuevouser);
+        Task InsertarSellerFactory(UsuarioVendedor nuevouser);
+        Task<UsuarioFabrica> UsuarioFabricaByNick(string filtro);
     }
 }

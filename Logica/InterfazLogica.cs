@@ -12,6 +12,7 @@ using Supabase.Interfaces;
 using Microsoft.Extensions.Configuration;
 using backend.Services;
 using backend.Models;
+using backend.MetodoFabrica;
 
 namespace backend.Logica
 {
@@ -19,7 +20,7 @@ namespace backend.Logica
     {
         IList<Producto> ObtenerProductos();
         IList<Usuario> ObtenerUsuarios();
-        List<Usuario> ObtenerUsuarios2();
+        IList<Usuario> ObtenerUsuarios2();
         Boolean Bool1(string nick);
         IList<Producto> GetContentsByParameters2(int keyWords);
         void AddMember(Usuario user);
@@ -46,6 +47,9 @@ namespace backend.Logica
         void AddBuyer(Comprador comp);
         void AddBuyer2(int limite);
         void AddBuyer22(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null);
+        Task AddFabrica(string nombre, string nick_name, string contraseña, string email, int edad, int limite);
+        Task<UsuarioFabrica> ObtenerFabricUserPorNick(string nick);
+        Task AddFactoryMember(UsuarioFabrica nuevouser);
         //void AgregarUsuarioABaseDeDatos2(Usuario usuario, int? limiteGasto);
         //void CrearUsuario2(string nombre, string nick_name, string contraseña, string email, int edad, int? limiteGasto = null);
 
